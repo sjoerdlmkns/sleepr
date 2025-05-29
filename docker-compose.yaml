@@ -1,17 +1,14 @@
-version: '3.8'
-
 services:
-  mongo:
-    image: mongo:6.0  # or latest if you prefer
-    container_name: mongodb
-    restart: always
+  reservations:
+    build:
+      context: .
+      dockerfile: ./apps/reservations/Dockerfile
+      target: development
+    command: pnpm run start:dev reservations
     ports:
-      - "27017:27017"
+      - '3000:3000'
     volumes:
-      - mongo-data:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: examplepassword
+      - .:/usr/src/app
 
-volumes:
-  mongo-data:
+  mongo:
+    image: mongo
